@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        /* Jinja2 also supports control flow in its templates.*/
+        {% if title %}
+        <title>{{ title }} - Microblog</title>
+        {% else %}
+        <title>Welcome to Microblog</title>
+        {% endif %}
+    </head>
+    <body>
+        <h1>Hi, {{ user.username }}!</h1>
+
+        /* This is how to write a for loop in Jinja templates. */
+        {% for post in posts %}
+        <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+        {% endfor %}
+    </body>
+</html>
