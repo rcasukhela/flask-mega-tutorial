@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Microblog</title>
+      {% else %}
+      <title>Welcome to Microblog</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Microblog: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %} <!--This is where the derived template
+                                            can insert itself.-->
+        <!--The idea is that index.html will now borrow from this base templates.
+        and only add what is different from base.html.-->
+    </body>
+</html>

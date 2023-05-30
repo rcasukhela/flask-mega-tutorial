@@ -1,19 +1,20 @@
-<!doctype html>
-<html>
-    <head>
-        /* Jinja2 also supports control flow in its templates.*/
-        {% if title %}
-        <title>{{ title }} - Microblog</title>
-        {% else %}
-        <title>Welcome to Microblog</title>
-        {% endif %}
-    </head>
-    <body>
-        <h1>Hi, {{ user.username }}!</h1>
+{% extends "base.html" %}
 
-        /* This is how to write a for loop in Jinja templates. */
-        {% for post in posts %}
-        <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-        {% endfor %}
-    </body>
-</html>
+{% block content %}
+    <h1>User: {{ user.username }}</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+{% endblock %}
+
+<!--Since the base.html template will now take care of the general page
+structure, I have removed all those elements from index.html and left only
+the content
+part. The extends statement establishes the inheritance link between the two
+templates, so that Jinja2 knows that when it is asked to render index.html
+it needs to embed it inside base.html. The two templates have matching block
+statements with name content, and this is how Jinja2 knows how to combine
+the two templates into one. Now if I need to create additional pages for the
+application, I can create them as derived templates from the same base.html
+template, and that is how I can have all the pages of the application sharing
+the same look and feel without duplication.-->
