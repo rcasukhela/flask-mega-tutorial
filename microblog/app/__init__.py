@@ -9,7 +9,13 @@
 
 from flask import Flask
 
+# Read the config file.
+from config import Config
+
 app = Flask(__name__)
+
+# Apply the config file.
+app.config.from_object(Config)
 
 from app import routes
 
