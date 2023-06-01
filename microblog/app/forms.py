@@ -14,3 +14,10 @@ class LoginForm(FlaskForm):
 # empty.
 # Keep an eye out for other validators, some of which will be used in other
 # forms.
+
+# The next step is to add the form to an HTML template so that it can be
+# rendered onto a web page.
+# Fortunately, the fields that are defined in the LoginForm class know how to
+# render themselves as HTML, so this not difficult.
+# We will create the login template, which we will store in file
+# app/templates/login.html

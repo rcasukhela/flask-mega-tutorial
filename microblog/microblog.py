@@ -8,7 +8,8 @@ from app import app
 
 # Before running, Flask needs to be told how to import our resources,
 # which is done by setting the FLASK_APP environment variable.
-# Windows: use `set FLASK_APP=microblog.py` in CMD.
+# Windows: use `set FLASK_APP=microblog.py` in CMD. Also see the file .flaskenv,
+# to see how to define environmental variables for the Flask application.
 
 # Run the application using the following command: flask run
 
