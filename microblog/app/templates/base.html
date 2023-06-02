@@ -8,7 +8,13 @@
       {% endif %}
     </head>
     <body>
-        <div>Microblog: <a href="/index">Home</a></div>
+        <div>Microblog:
+          <a href="/index">Home</a>
+          <!--To ensure ease of access, we include a link to the login
+            page to our nav bar.
+          -->
+          <a href='/login'>Login</a>
+        </div>
         <hr>
         {% block content %}{% endblock %} <!--This is where the derived template
                                             can insert itself.-->

@@ -1,5 +1,6 @@
-from flask import render_template
+from flask import render_template, flash, redirect
 from app import app
+from app.forms import LoginForm
 
 @app.route('/')
 @app.route('/index')
@@ -24,6 +25,32 @@ def index():
     # engine that comes bundled with the Flask framework.
     # Jinja2 substitutes {{ ... }} 
     return render_template('index.html', title='Home', user=user, posts=posts)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    '''
+    Here, we import the LoginForm class from the module forms.py. Then,
+    we instantiate a LoginForm object, and send it to the template.
+    
+    Note the methods argument in the route decorator: This tells Flask
+    that this view function accepts GET and POST requests, overriding the
+    default, which is to accept only GET requests.
+    
+    The HTTP protocol states that GET requests are those that return
+    information to the client. All the requests in the application so far
+    are of this type. POST requests are typically used when the browser
+    submits form data to the server.
+    
+    If the client attempts to submit a login request and the application was not
+    configured to accept it, we would get a "Method Not Allowed" error.
+    '''
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        flash(f'Login requested for user {form.username_data}, \
+              remember_me={form.remember_me.data}')
+        return redirect('/index')
+    return render_template('login.html', title='Sign In', form=form)
 
 # Chapter 1:
 # The @app.route decorator creates an association between the URL
