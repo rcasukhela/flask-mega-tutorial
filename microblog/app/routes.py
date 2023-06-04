@@ -43,13 +43,58 @@ def login():
     
     If the client attempts to submit a login request and the application was not
     configured to accept it, we would get a "Method Not Allowed" error.
+    This is because we have no logic to process any data submitted by the user.
+    
+    The form.validate_on_submit() method does the form processing work.
+    When the browser sends the GET request to receive the web page with the
+    form, form.validate_on_submit() will return False. So in that case,
+    the function skips the if statement and goes directly to render the
+    template in the last line of the function:
+    
+        return render_template('login.html', title='Sign In', form=form)
+        
+    When the browser sends the POST request as a result of the user pressing
+    the submit button, form.validate_on_submit() will gather all the
+    data, and run all the validators attached to fields. If everything is all
+    right it will return True. This indicates that the data is valid and can
+    be processed by the application. If at least one field fails validation,
+    the function will return False, and that will cause the form to be
+    rendered back to the user, like in the GET request case.
+    
+    Later, we will add an error message when validation fails.
     '''
     form = LoginForm()
     
     if form.validate_on_submit():
         flash(f'Login requested for user {form.username_data}, \
               remember_me={form.remember_me.data}')
+        '''
+        When form.validate_on_submit() returns True, the login view function calls
+        two new functions, imported from Flask.
+        The flash() function is a useful way to show a message to the user.
+        Many applications use flash() to let the user know if some action has been
+        successful or not. In this case, we use the function flash() as a
+        temporary solution, because we do not have the infrastructure necessary to
+        log users in properly yet. The best we can do for now is to show a message
+        that confirms that the application properly received the credentials.
+        
+        When we call the flash() functiono, Flask stores the message, but
+        flashed messages will not magically appear in web pages. The templates
+        oof the application neede to render these flashed messages in a way
+        that is conformant with the site layout.
+        
+        We will add these messages to the template base.html, so that all
+        templates will inherit this functionality.
+        '''
         return redirect('/index')
+    '''
+    The second new function used in the login view is redirect(). This function
+    instructs the client web browser to automatically navigate to a different
+    page, given as an argument.
+    
+    This view function uses it to redirect the user to the index page of the
+    application.
+    '''
     return render_template('login.html', title='Sign In', form=form)
 
 # Chapter 1:

@@ -1,24 +1,54 @@
 <!doctype html>
 <html>
     <head>
-      {% if title %}
-      <title>{{ title }} - Microblog</title>
-      {% else %}
-      <title>Welcome to Microblog</title>
-      {% endif %}
+        {% if title %}
+        <title>{{ title }} - microblog</title>
+        {% else %}
+        <title>microblog</title>
+        {% endif %}
     </head>
     <body>
-        <div>Microblog:
-          <a href="/index">Home</a>
-          <!--To ensure ease of access, we include a link to the login
-            page to our nav bar.
-          -->
-          <a href='/login'>Login</a>
+        <div>
+            Microblog:
+            <a href="/index">Home</a>
+            <!--To ensure ease of access, we include a link to the login
+            page to our nav bar.-->
+            <a href="/login">Login</a>
+            <!--Also link the login page to our base HTML page.-->
         </div>
         <hr>
-        {% block content %}{% endblock %} <!--This is where the derived template
-                                            can insert itself.-->
-        <!--The idea is that index.html will now borrow from this base templates.
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <!--Here, we use the construct with, to assign the result of calling
+          get_flashed_messages() to a messages variable, all in the context
+          of the template.
+          
+          The function get_flashed_messages() comes from Flask, and returns
+          a list of all the messages that have been registered with flash()
+          previously. The conditional that follows checks if messages has some
+          content. If messages does have some content, a <ul> element is
+          rendered with each message as an <li> list item.
+
+          We note that this style of rendering is not visually appealing,
+          but we will get to that later.
+
+          An interesting property of these flashed messages is that, once they
+          are requested once through the get_flashed_messages function, they
+          are removed from the message list, so they appear only once after the
+          flash() function is called.
+        -->
+        {% block content %}{% endblock %}
+        <!--This is where the derived template
+        can insert itself.
+
+        The idea is that index.html will now borrow from this base templates.
         and only add what is different from base.html.-->
     </body>
 </html>
