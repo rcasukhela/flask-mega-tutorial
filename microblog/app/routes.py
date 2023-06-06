@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm
 
@@ -86,7 +86,7 @@ def login():
         We will add these messages to the template base.html, so that all
         templates will inherit this functionality.
         '''
-        return redirect('/index')
+        return redirect(url_for('/index'))
     '''
     The second new function used in the login view is redirect(). This function
     instructs the client web browser to automatically navigate to a different
@@ -123,3 +123,30 @@ def login():
 # Templates help achieve this separation between the view logic and
 # the business logic. In Flask, templates are written as separate files,
 # stored in a templates folder that is inside the application package.
+
+'''
+Chapter 3: Generating Links
+
+One problem with writing links directly in templates and source files, is that
+if the links are reorganized or renamed, then we will have to search and
+replace those links in the entire application.
+
+To have better control over these links, Flask provides a function called
+url_for(). This function, url_for(), generates URLs using its internal mapping
+of URLs to view functions.
+
+For example, the expression url_for('login') returns /login, and
+url_for('index') returns /index. The argument to url_for() is the endpoint name,
+WHICH IS THE NAME OF THE VIEW FUNCTION. Take note of this! The endpoint name 
+is the same as the view function name!
+
+Why is it better to use the function names instead of URLs? The fact is that
+URLs are much more likely to change than view function names. The secondary
+and more important reason is that, as we will learn later, some URLs have
+dynamic components in them, so generating those URLs by hand would require
+concatenating multiple elements, which is tedious and error prone. url_for()
+is also able to generate these complex URLs.
+
+From now on, we will use url_for() every time we need to generate an application
+URL. We make changes to the base.html template and the routes.py script.
+'''

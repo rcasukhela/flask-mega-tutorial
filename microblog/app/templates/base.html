@@ -10,10 +10,10 @@
     <body>
         <div>
             Microblog:
-            <a href="/index">Home</a>
+            <a href="{{ url_for('index') }}">Home</a>
             <!--To ensure ease of access, we include a link to the login
             page to our nav bar.-->
-            <a href="/login">Login</a>
+            <a href="{{ url_for('login') }}">Login</a>
             <!--Also link the login page to our base HTML page.-->
         </div>
         <hr>
