@@ -39,8 +39,8 @@
             configuration file. Flask-WTF will take care of the rest.
 
             The fields from the form object know how to render themselves as
-            HTML. We just needed to include the {{ form.<field_name>.label }}
-            where we wanted the field label, and {{ form.<field_name>() }}
+            HTML. We just needed to include the [[ form.<field_name>.label ]]
+            where we wanted the field label, and [[ form.<field_name>() ]]
             where we wanted the field itself.
             
             For fields that require additional HTML attributes, those can be
@@ -48,20 +48,43 @@
             template take the size as an argument that will be added to the
             <input> HTML element as an attribute. Take note that this is also
             how we can attach CSS classes or IDs to form fields.
-            -->
+        -->
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32)}}
+            <!--Here, we're gonna add the validation.-->
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>{{ form.remember_me() }} {{form.remember_me.label}}</p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
+
+<!--
+    The only change we have made is to add for loops right after the username
+    and password fields that render the error messages, added by the validators
+    in red color.
+
+    As a general rule, any fields that have validators attached will have any
+    error messages that result from validation added under
+    form.<field_name>.errors. form.username.errors and form.password.errors
+    are good examples. form.<field_name>.errors will return a list, because
+    fields can have multiple validators attached, and more than one might be
+    providing error messages to display to the user.
+
+    If we try to submit the form now with an empty username or password,
+    we get an error message, instead of the page returning a 404.
+-->
 
 <!--This template expects a form object instantiated from the LoginForm
     class to be given as an argument, which you can see referenced as
