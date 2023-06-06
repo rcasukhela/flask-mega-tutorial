@@ -12,12 +12,18 @@ from flask import Flask
 # Read the config file.
 from config import Config
 
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
 app = Flask(__name__)
 
 # Apply the config file.
 app.config.from_object(Config)
 
-from app import routes
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from app import routes, models
 
 # The logic above, creates the application object,
 # as an instance of the class Flask, imported
@@ -55,3 +61,15 @@ from app import routes
 
 # We write the first view function for this application in
 # app/routes.py.
+
+'''
+We have made three changes to the init script. First, we have added a db object
+that represents the database. Then we have added another object that
+represents the migration engine.
+
+There is a pattern beginning to develop in how to work with Flask extensions:
+typically, we need to initialize extensions here in the __init__.py file.
+
+Finally, we import a new module called models at the bottom, which will
+define the structure of the database.
+'''
